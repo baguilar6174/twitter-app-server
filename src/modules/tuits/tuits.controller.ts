@@ -20,33 +20,32 @@ export class TuitsController {
 
     // Si el decorador de la ruta esta en blanco toma la ruta del controller 'localhost:3000/tuits'
     @Get()
-    getTuits(@Query() filter): Tuit[] {
+    getTuits(@Query() filter): Promise<Tuit[]> {
         const { search, order } = filter;
-        // return `All ${search} tuits order by ${order}`;
         return this.tuitsService.getTuits();
     }
 
     @Get(':id') // localhost:3000/tuits/1
-    getTuit(@Param('id') id: string): Tuit {
-        // return `Your tuit id is ${id}`;
+    getTuit(@Param('id') id: number): Promise<Tuit> {
         return this.tuitsService.getTuit(id);
     }
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    createTuit(@Body() body: CreateTuitDto): void {
-        // return `Your tuit was ${body.message}`;
+    createTuit(@Body() body: CreateTuitDto): Promise<Tuit> {
         return this.tuitsService.createTuit(body);
     }
 
     @Patch(':id')
-    updateTuit(@Param('id') id: string, @Body() body: UpdateTuitDto): Tuit {
-        // return `The tuit ${id} has been updated`;
+    updateTuit(
+        @Param('id') id: number,
+        @Body() body: UpdateTuitDto,
+    ): Promise<Tuit> {
         return this.tuitsService.updateTuit(id, body);
     }
 
     @Delete(':id')
-    deleteTuit(@Param('id') id: string): void {
+    deleteTuit(@Param('id') id: number): Promise<void> {
         // return `The tuit ${id} has been deleted`;
         return this.tuitsService.deleteTuit(id);
     }

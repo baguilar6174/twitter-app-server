@@ -10,7 +10,7 @@ import {
     Post,
     Query,
 } from '@nestjs/common';
-import { CreateTuitDto, UpdateTuitDto } from './dto';
+import { CreateTuitDto, PaginationQueryDto, UpdateTuitDto } from './dto';
 import { Tuit } from './tuit.entity';
 import { TuitsService } from './tuits.service';
 
@@ -20,9 +20,8 @@ export class TuitsController {
 
     // Si el decorador de la ruta esta en blanco toma la ruta del controller 'localhost:3000/tuits'
     @Get()
-    getTuits(@Query() filter): Promise<Tuit[]> {
-        const { search, order } = filter;
-        return this.tuitsService.getTuits();
+    getTuits(@Query() pagination: PaginationQueryDto): Promise<Tuit[]> {
+        return this.tuitsService.getTuits(pagination);
     }
 
     @Get(':id') // localhost:3000/tuits/1
